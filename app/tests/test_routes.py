@@ -1,5 +1,4 @@
-from flask import Flask
-
+from flask import Flask, json
 from app.handlers.routes import configure_routes
 
 
