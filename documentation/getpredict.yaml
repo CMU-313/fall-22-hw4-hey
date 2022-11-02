@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: home-iot-api
-  description: The API for the EatBacon IOT project
+  title: predict-api
+  description: Predicting whether an applicant should be accepted based on a ML model
   version: 1.0.0
 servers:
 - url: https://virtserver.swaggerhub.com/GMEDINAJ/hw4-hey/1.0.0
