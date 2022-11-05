@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: predict-api
+  description: Predicting whether an applicant should be accepted based on a ML model
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/GMEDINAJ/hw4-hey/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /predict:
+    get:
+      description: Predicts student's acceptance
+      operationId: getPredict
+      parameters:
+      - name: studyTime
+        in: query
+        description: Hours studied
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: failures
+        in: query
+        description: Number of failed classes
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: G3
+        in: query
+        description: Final grade
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Successfully predict student's acceptance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  example: 1
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 500 Internal Server Error
+components: {}
