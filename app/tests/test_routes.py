@@ -29,6 +29,10 @@ def test_predict_route_consistent():
     studytime = 4
     goout = 1
     student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":0}\n'
+ 
     responseS1 = client.get(url, query_string=student)
     assert responseS1.status_code == 200
     responseS2 = client.get(url, query_string=student)
@@ -45,3 +49,76 @@ def test_predict_route_consistent():
     assert responseF1.status_code == 500
     responseF2 = client.get(url, query_string=student)
     assert responseF2.status_code == 500
+
+
+def test_predict_route_expected_behavior():
+    app = Flask(__name__)
+    configure_routes(app)
+    client = app.test_client()
+    
+    url = '/predict'
+    famrel = 2
+    Medu = 4
+    Fedu = 3
+    studytime = 2
+    goout = 1
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":1}\n'
+    
+    url = '/predict'
+    famrel = 3
+    Medu = 1
+    Fedu = 2
+    studytime = 4
+    goout = 1
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":1}\n'
+    
+    url = '/predict'
+    famrel = 3
+    Medu = 2
+    Fedu = 1
+    studytime = 4
+    goout = 1
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":1}\n'
+    
+    url = '/predict'
+    famrel = 3
+    Medu = 2
+    Fedu = 2
+    studytime = 4
+    goout = 1
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":1}\n'
+    
+    url = '/predict'
+    famrel = 3
+    Medu = 2
+    Fedu = 2
+    studytime = 4
+    goout = 5
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":0}\n'
+    
+    url = '/predict'
+    famrel = 3
+    Medu = 2
+    Fedu = 2
+    studytime = 1
+    goout = 4
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":0}\n'
+
