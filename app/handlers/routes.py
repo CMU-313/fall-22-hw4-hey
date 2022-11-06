@@ -27,6 +27,11 @@ def configure_routes(app):
         data = [[famrel], [Medu], [Fedu], [studytime], [goout]]
         query_df = pd.DataFrame({'goout': pd.Series(goout), 'famrel': pd.Series(
             famrel), 'Medu': pd.Series(Medu), 'Fedu': pd.Series(Fedu), 'studytime': pd.Series(studytime)})
-        query = pd.get_dummies(query_df)
-        prediction = clf.predict(query)
-        return jsonify(np.ndarray.item(prediction))
+        #query = pd.get_dummies(query_df)
+        #prediction = clf.predict(query_df)
+        #return jsonify(prediction)#jsonify(np.ndarray(prediction).toList())
+        
+        prediction = list(clf.predict(query_df))[0]
+
+        # Converting to int from int64
+        return jsonify({"prediction": int(prediction)})
