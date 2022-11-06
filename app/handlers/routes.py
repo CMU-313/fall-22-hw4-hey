@@ -19,15 +19,19 @@ def configure_routes(app):
     @app.route('/predict')
     def predict():
         #use entries from the query string here but could also use json
-        age = request.args.get('age')
-        absences = request.args.get('absences')
-        health = request.args.get('health')
-        data = [[age], [health], [absences]]
-        query_df = pd.DataFrame({
-            'age': pd.Series(age),
-            'health': pd.Series(health),
-            'absences': pd.Series(absences)
-        })
-        query = pd.get_dummies(query_df)
-        prediction = clf.predict(query)
-        return jsonify(np.ndarray.item(prediction))
+        famrel = request.args.get('famrel')
+        Medu = request.args.get('Medu')
+        Fedu = request.args.get('Fedu')
+        studytime = request.args.get('studytime')
+        goout = request.args.get('goout')
+        data = [[famrel], [Medu], [Fedu], [studytime], [goout]]
+        query_df = pd.DataFrame({'goout': pd.Series(goout), 'famrel': pd.Series(
+            famrel), 'Medu': pd.Series(Medu), 'Fedu': pd.Series(Fedu), 'studytime': pd.Series(studytime)})
+        #query = pd.get_dummies(query_df)
+        #prediction = clf.predict(query_df)
+        #return jsonify(prediction)#jsonify(np.ndarray(prediction).toList())
+        
+        prediction = list(clf.predict(query_df))[0]
+
+        # Converting to int from int64
+        return jsonify({"prediction": int(prediction)})

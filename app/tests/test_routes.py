@@ -1,5 +1,6 @@
 from flask import Flask, json
 from app.handlers.routes import configure_routes
+from flask import Flask, jsonify, request
 
 
 def test_base_route():
@@ -13,18 +14,20 @@ def test_base_route():
     assert response.status_code == 200
     assert response.get_data() == b'try the predict route it is great!'
 
-def test_predict_route_accurate():
+
+def test_predict_route_consistent():
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
+
     url = '/predict'
-
-    countSuccess = 0
-    for i in range(1,11):
-        student = {'studytime': abs(min(4, i-2)), 'failures': max(0,min(7,i)-5), 'G3': 10+i}
-        response = client.get(url, data=json.dumps(
-            student), content_type='application/json')
-
-        if (response.status == 200): countSuccess += 1
-    assert countSuccess >= 9
+    famrel = 4
+    Medu = 4
+    Fedu = 4
+    studytime = 4
+    goout = 1
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}&goout={goout}'
+    response = client.get(url, query_string=student)
+    assert response.status_code == 200
+    assert response.get_data() == b'{"prediction":0}\n'
     
