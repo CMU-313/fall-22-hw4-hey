@@ -1,4 +1,5 @@
 from flask import Flask, json
+
 from app.handlers.routes import configure_routes
 from flask import Flask, jsonify, request
 
@@ -21,6 +22,7 @@ def test_predict_route_consistent():
     client = app.test_client()
 
     url = '/predict'
+    # sucessful response
     famrel = 4
     Medu = 4
     Fedu = 4
@@ -30,7 +32,25 @@ def test_predict_route_consistent():
     response = client.get(url, query_string=student)
     assert response.status_code == 200
     assert response.get_data() == b'{"prediction":0}\n'
-    
+ 
+    responseS1 = client.get(url, query_string=student)
+    assert responseS1.status_code == 200
+    responseS2 = client.get(url, query_string=student)
+    assert responseS2.status_code == 200
+    assert responseS1.get_data() == responseS2.get_data()
+
+    # error response
+    famrel = 0
+    Medu = 0
+    Fedu = 0
+    studytime = 0
+    student = f'famrel={famrel}&Medu={Medu}&Fedu={Fedu}&studytime={studytime}'
+    responseF1 = client.get(url, query_string=student)
+    assert responseF1.status_code == 500
+    responseF2 = client.get(url, query_string=student)
+    assert responseF2.status_code == 500
+
+
 def test_predict_route_expected_behavior():
     app = Flask(__name__)
     configure_routes(app)
@@ -101,17 +121,4 @@ def test_predict_route_expected_behavior():
     response = client.get(url, query_string=student)
     assert response.status_code == 200
     assert response.get_data() == b'{"prediction":0}\n'
-
-
-    
-
-    
-    
-
-
-    
- 
-    
-
-
 
