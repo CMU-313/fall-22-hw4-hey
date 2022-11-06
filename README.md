@@ -1,3 +1,33 @@
+#Update:
+
+#Updated Model
+
+Feature 1: goout, integer
+Feature 2: famrel, integer
+Feature 3: Medu, integer
+Feature 4: Fedu, integer
+Feature 5: studytime, integer
+
+Difference: G3 removed as feature from our model: We discovered that G3 was the target estimation anyway. Hence, if we trained on G3, we are testing the model with the outcome which we were predicting.
+
+Model Type: Random Forest w/ 1000 estimators
+Model accuracy: 0.7846
+
+#Previous Model
+Feature 1: goout, integer
+Feature 2: famrel, integer
+Feature 3: Medu, integer
+Feature 4: Fedu, integer
+Feature 5: studytime, integer
+Feature 6: G3, integer
+
+Model Type: Random Forest w/ 1000 estimators
+Model accuracy: 100%
+
+
+
+
+
 # HW4 Starter Code and Instructions
 
 Please consult the [homework assignment](https://cmu-313.github.io//assignments/hw4) for additional context and instructions for this code.
