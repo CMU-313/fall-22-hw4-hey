@@ -19,15 +19,8 @@ def test_invalid_parameters():
     configure_routes(app)
     client = app.test_client()
     url = '/predict'
-    student1 = {'studytime': -1, 'failures': 1, 'G3': 10}
-    student2 = {'studytime': 1, 'failures': -1, 'G3': 10}
-    student3 = {'studytime': 1, 'failures': 1, 'G3': -10}
-
+    student1 = {'famrel': -1, 'medu': 5, 'fedu': -1, 'studytime': 1000, 'goout':4}
     response1 = client.get(url, data=json.dumps(student1), content_type='application/json')
-    assert response1.status_code == "Invalid Parameters"
+    print(response1.status_code)
+    assert response1.status_code == 500
 
-    response2 = client.get(url, data=json.dumps(student2), content_type='application/json')
-    assert response2.status_code == "Invalid Parameters"
-
-    response3 = client.get(url, data=json.dumps(student3), content_type='application/json')
-    assert response3.status_code == "Invalid Parameters"
