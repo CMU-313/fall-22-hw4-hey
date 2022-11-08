@@ -35,3 +35,4 @@ def configure_routes(app):
 
         # Converting to int from int64
         return jsonify({"prediction": int(prediction)})
+
